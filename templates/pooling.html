@@ -1,54 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pooling - ReturnLoop</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
-  <header>
-    <div class="logo">ReturnLoop</div>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/get_ride">Get a Ride</a></li>
-        <li><a href="/pooling">Pooling</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/signup">Signup</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section class="auth-form-container">
-      <h1>Share Rides, Save More</h1>
-      <p>Join others on your route and save money with ReturnLoop Pooling.</p>
-
-      <!-- Pooling Form -->
-      <form class="auth-form">
-        <div class="form-group">
-          <label for="poolingLocation">Pickup Location</label>
-          <input type="text" id="poolingLocation" name="location" placeholder="Enter your location" required>
-        </div>
-        <div class="form-group">
-          <label for="poolingDestination">Destination</label>
-          <input type="text" id="poolingDestination" name="destination" placeholder="Enter your destination" required>
-        </div>
-        <div class="form-group">
-          <label for="poolingDate">Date</label>
-          <input type="date" id="poolingDate" name="date" required>
-        </div>
-        <button type="submit">Find a Pool</button>
-      </form>
-
-      <p>Prefer a solo ride? <a href="/get_ride">Get a Ride</a></p>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2023 ReturnLoop. All rights reserved.</p>
-  </footer>
-</body>
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pooling - ReturnLoop</title>
+    <style>
+        /* General Styles with enhanced design */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #6a11cb;
+            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --secondary: #2c2c2c;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --accent: #ff4d6d;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        /* Enhanced Header and Navigation */
+        header {
+            background-color: transparent;
+            color: var(--text-light);
+            padding: 15px 40px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .header-scrolled {
+            background-color: var(--secondary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
