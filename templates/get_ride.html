@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Get a Ride - ReturnLoop</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -21,12 +22,12 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="auth-form-container">
       <h1>Get a Ride with ReturnLoop</h1>
       <p>Your journey, your way. Book a ride now!</p>
 
       <!-- Ride Booking Form -->
-      <form class="booking-form">
+      <form class="auth-form">
         <div class="form-group">
           <label for="location">Pickup Location</label>
           <input type="text" id="location" name="location" placeholder="Enter your location" required>
