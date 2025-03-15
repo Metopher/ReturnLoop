@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup - ReturnLoop</title>
+    <title>Home - ReturnLoop</title>
     <style>
         /* General Styles with enhanced design */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -17,7 +17,6 @@
             --accent: #ff4d6d;
             --light-bg: #f8f9fa;
             --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            --footer-height: 60px; /* Added footer height variable */
         }
         
         * {
@@ -32,7 +31,6 @@
             background-color: var(--light-bg);
             color: var(--text-dark);
             line-height: 1.6;
-            padding-bottom: var(--footer-height); /* Add padding to account for fixed footer */
         }
         
         /* Enhanced Header and Navigation */
@@ -136,10 +134,11 @@
             box-shadow: 0 6px 20px rgba(106, 17, 203, 0.6);
         }
         
-        /* Enhanced Hero/Form Section */
-        .auth-form-container {
+        /* Hero Section */
+        .hero {
+            text-align: center;
             min-height: 100vh;
-            padding: 180px 20px 100px; /* Increased bottom padding to prevent overlap with footer */
+            padding: 180px 20px 100px;
             background: var(--primary-gradient);
             color: var(--text-light);
             display: flex;
@@ -148,11 +147,9 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            text-align: center;
-            margin-bottom: var(--footer-height); /* Add margin to prevent overlap with footer */
         }
         
-        .auth-form-container::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
@@ -169,48 +166,21 @@
             100% { background-position: 300px 300px; }
         }
         
-        .auth-form-container h1 {
-            font-size: 42px;
+        .hero h1 {
+            font-size: 56px;
             font-weight: 700;
             margin-bottom: 20px;
             text-shadow: 0 2px 10px rgba(0,0,0,0.2);
             animation: fadeInDown 1s ease-out;
-            position: relative;
-            z-index: 10;
         }
         
-        .auth-form-container p {
-            font-size: 18px;
-            max-width: 600px;
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
             margin: 0 auto 40px;
             opacity: 0.9;
-            position: relative;
-            z-index: 10;
             animation: fadeInUp 1s ease-out 0.3s forwards;
             opacity: 0;
-        }
-        
-        .auth-form-container p a {
-            color: var(--text-light);
-            font-weight: 600;
-            text-decoration: none;
-            position: relative;
-        }
-        
-        .auth-form-container p a:after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background: var(--text-light);
-            transition: all 0.3s ease;
-        }
-        
-        .auth-form-container p a:hover:after {
-            height: 4px;
-            bottom: -3px;
         }
         
         @keyframes fadeInDown {
@@ -235,17 +205,12 @@
             }
         }
         
-        /* Enhanced Form Styling */
-        .auth-form {
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            z-index: 10;
+        /* Button container for home page */
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
             animation: fadeIn 1s ease-out 0.6s forwards;
             opacity: 0;
         }
@@ -255,56 +220,39 @@
             to { opacity: 1; }
         }
         
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 16px;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 15px 20px;
+        .large-button {
+            padding: 18px 40px;
             border: none;
             border-radius: 50px;
-            background-color: rgba(255, 255, 255, 0.9);
-            font-size: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-        
-        .auth-form button {
-            padding: 15px 30px;
-            width: 100%;
-            border: none;
-            border-radius: 50px;
-            background-color: var(--secondary);
-            color: var(--text-light);
+            text-decoration: none;
             cursor: pointer;
             font-size: 18px;
             font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            margin-top: 15px;
+            display: inline-block;
         }
         
-        .auth-form button:hover {
-            background-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+        .large-button:first-child {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .large-button:first-child:hover {
+            background-color: #1a1a1a;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .large-button:last-child {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+        
+        .large-button:last-child:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
         }
         
         /* Enhanced Footer */
@@ -313,74 +261,61 @@
             padding: 25px;
             background-color: var(--secondary);
             color: var(--text-light);
-            position: fixed;
-            bottom: 0;
+            position: relative;
             width: 100%;
             font-size: 14px;
             letter-spacing: 0.5px;
-            height: var(--footer-height); /* Set explicit height */
-            z-index: 1001; /* Ensure footer stays on top */
-        }
-
-        /* Wrapper for proper footer positioning */
-        .wrapper {
-            min-height: 100vh;
-            position: relative;
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <header id="main-header">
-            <nav>
-                <div class="logo">ReturnLoop</div>
-                <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/get_ride">Get a Ride</a></li>
-                    <li><a href="/pooling">Pooling</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/signup">Signup</a></li>
-                </ul>
-            </nav>
-        </header>
+    <header id="main-header">
+        <nav>
+            <div class="logo">ReturnLoop</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/get_ride">Ride</a></li>
+                <li><a href="/pooling">Pooling</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/login"><button class="login">Log In</button></a>
+                <a href="/signup"><button class="signup">Sign Up</button></a>
+            </div>
+        </nav>
+    </header><header id="main-header">
+        <nav>
+            <div class="logo">ReturnLoop</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/get_ride">Ride</a></li>
+                <li><a href="/pooling">Pooling</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/login"><button class="login">Log In</button></a>
+                <a href="/signup"><button class="signup">Sign Up</button></a>
+            </div>
+        </nav>
+    </header>
 
-        <body>
-            <h2>Signup</h2>
-        
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <p class="{{ category }}">{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        
-            <form action="{{ url_for('signup') }}" method="POST">
-                <label for="signupName">Name:</label>
-                <input type="text" id="signupName" name="name" required><br><br>
-        
-                <label for="signupEmail">Email:</label>
-                <input type="email" id="signupEmail" name="email" required><br><br>
-        
-                <label for="signupPassword">Password:</label>
-                <input type="password" id="signupPassword" name="password" required><br><br>
-        
-                <button type="submit">Signup</button>
-            </form>
-        
-            <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    <main>
+        <section class="hero">
+            <h1>Welcome to ReturnLoop</h1>
+            <p>Your journey, your way. Choose your ride option below.</p>
+            
+            <div class="button-container">
+                <a href="/get_ride" class="large-button">Get a Ride</a>
+                <a href="/pooling" class="large-button">Do Pooling</a>
+            </div>
+        </section>
+    </main>
 
-
-        <footer>
-            <p>&copy; 2023 ReturnLoop. All rights reserved.</p>
-        </footer>
-    </div>
+    <footer>
+        <p>&copy; 2053 ReturnLoop. All rights reserved.</p>
+    </footer>
 
     <script>
         // Enhanced JavaScript functionality
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("ReturnLoop signup page is ready!");
-            
             // Header scroll effect
             const header = document.getElementById('main-header');
             window.addEventListener('scroll', function() {
@@ -391,50 +326,15 @@
                 }
             });
             
-            // Form submission animation
-            const authForm = document.querySelector('.auth-form');
-            authForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = this.querySelector('#signupName').value;
-                const email = this.querySelector('#signupEmail').value;
-                const password = this.querySelector('#signupPassword').value;
-                
-                if (name && email && password) {
-                    // Visual feedback
-                    const button = this.querySelector('button');
-                    const originalText = button.textContent;
-                    
-                    button.textContent = 'Processing...';
-                    button.style.width = button.offsetWidth + 'px';
-                    button.disabled = true;
-                    
-                    // Simulate API request
-                    setTimeout(() => {
-                        button.textContent = 'Signup Successful!';
-                        button.style.backgroundColor = '#4CAF50';
-                        
-                        setTimeout(() => {
-                            button.textContent = originalText;
-                            button.style.backgroundColor = '';
-                            button.disabled = false;
-                            // Redirect user or perform other actions
-                        }, 2000);
-                    }, 1500);
-                }
-            });
-            
-            // Input field animation
-            const inputs = document.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.style.transform = 'translateY(-5px)';
-                    this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+            // Button hover effects
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseover', function() {
+                    this.style.transform = 'translateY(-2px)';
                 });
                 
-                input.addEventListener('blur', function() {
-                    this.parentElement.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.05)';
+                button.addEventListener('mouseout', function() {
+                    this.style.transform = 'translateY(0)';
                 });
             });
         });
