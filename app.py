@@ -3,15 +3,15 @@ import mysql.connector
 import heapq  # For Dijkstra's Algorithm
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Required for session management
+app.secret_key = 'your_secret_key_here'  # Required for session management
 
 # Function to get a new database connection
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="",
-        database="users"
+        password="",  # Add your MySQL password here
+        database="returnloop"  # Updated database name
     )
 
 # Graph Representation of Kochi (Distances in KM)
@@ -56,12 +56,13 @@ def dijkstra(graph, start, end):
 # Home route
 @app.route('/')
 def home():
-    return render_template('home.html')
+    user_name = session.get('name', None)  # Get the user's name from the session
+    return render_template('home.html', user_name=user_name)
 
 # Get Ride Route (Shortest Distance Calculation)
 @app.route('/get_ride', methods=['GET', 'POST'])
 def get_ride():
-    total_distance = None
+    user_name = session.get('name', None)
     if request.method == 'POST':
         start = request.form.get('start_location')
         destination = request.form.get('destination')
@@ -69,54 +70,55 @@ def get_ride():
         # Debugging Output
         print(f"Ride Request - Start: {start}, Destination: {destination}")
 
-        # Check if locations exist in the graph
-        if start not in graph or destination not in graph:
-            flash("Invalid locations entered! Please choose valid areas in Kochi.", "danger")
-            print("fail")
-        else:
-            total_distance = dijkstra(graph, start, destination)
-            flash(f"Shortest distance from {start} to {destination} is {total_distance} km.", "success")
-            print("success")
+        # Store ride details in the `rides` table
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO rides (start_location, destination, email) VALUES (%s, %s, %s)", 
+                       (start, destination, session.get('email', 'anonymous')))  # Use session email
+        conn.commit()
+        conn.close()
 
-            # Store ride details in `districts` table if user is logged in
-            if 'user' in session:
-                conn = get_db_connection()
-                cursor = conn.cursor()
-                cursor.execute("INSERT INTO district (area, destination, email) VALUES (%s, %s, %s)", 
-                               (start, destination, session['user']))
-                conn.commit()
-                conn.close()
+        flash("Ride request submitted successfully!", "success")
 
-    return render_template('get_ride.html', total_distance=total_distance)
+    return render_template('get_ride.html', user_name=user_name)
 
 # Pooling Route
 @app.route('/pooling', methods=['GET', 'POST'])
 def pooling():
+    user_name = session.get('name', None)
+
+    # Fetch all pooling options from the database with username instead of email
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT p.*, u.name as username 
+        FROM pooling p 
+        LEFT JOIN users u ON p.email = u.email 
+        ORDER BY p.pickup, p.destination, p.date
+    """)
+    pooling_options = cursor.fetchall()
+    conn.close()
+
     if request.method == 'POST':
-        pickup_location = request.form.get('location')
+        pickup = request.form.get('location')
         destination = request.form.get('destination')
         date = request.form.get('date')
 
         # Debugging Output
-        print(f"Pooling Request - Pickup: {pickup_location}, Destination: {destination}, Date: {date}")
+        print(f"Pooling Request - Pickup: {pickup}, Destination: {destination}, Date: {date}")
 
-        # Check if locations exist in the graph
-        if pickup_location not in graph or destination not in graph:
-            flash("Invalid locations entered! Please choose valid areas in Kochi.", "danger")
-        else:
-            # Store pooling request in the database if user is logged in
-            if 'user' in session:
-                conn = get_db_connection()
-                cursor = conn.cursor()
-                cursor.execute("INSERT INTO pooling_requests (pickup_location, destination, date, email) VALUES (%s, %s, %s, %s)", 
-                               (pickup_location, destination, date, session['user']))
-                conn.commit()
-                conn.close()
-                flash("Pooling request submitted successfully!", "success")
-            else:
-                flash("You must be logged in to submit a pooling request.", "warning")
+        # Store pooling details in the `pooling` table
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO pooling (pickup, destination, date, email) VALUES (%s, %s, %s, %s)", 
+                       (pickup, destination, date, session.get('email', 'anonymous')))  # Use session email
+        conn.commit()
+        conn.close()
 
-    return render_template('pooling.html')
+        flash("Pooling request submitted successfully!", "success")
+        return redirect(url_for('pooling'))
+
+    return render_template('pooling.html', user_name=user_name, pooling_options=pooling_options)
 
 # Signup Route
 @app.route('/signup', methods=['GET', 'POST'])
@@ -124,12 +126,14 @@ def signup():
     if request.method == 'POST':
         name = request.form.get('name')
         email = request.form.get('email')
+        phone = request.form.get('phone')
+        gender = request.form.get('gender')
         password = request.form.get('password')
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM idpass WHERE email = %s", (email,))
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
         existing_user = cursor.fetchone()
 
         if existing_user:
@@ -137,7 +141,10 @@ def signup():
             conn.close()
             return redirect(url_for('login'))
 
-        cursor.execute("INSERT INTO idpass (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
+        cursor.execute(
+            "INSERT INTO users (name, email, phone, gender, password) VALUES (%s, %s, %s, %s, %s)", 
+            (name, email, phone, gender, password)
+        )
         conn.commit()
         conn.close()
 
@@ -155,12 +162,13 @@ def login():
 
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM idpass WHERE email = %s AND password = %s", (email, password))
+        cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, password))
         user = cursor.fetchone()
         conn.close()
 
         if user:
-            session['user'] = email
+            session['email'] = email  # Store email in session
+            session['name'] = user[1]  # Store user's name in session
             flash("Login successful!", "success")
             return redirect(url_for('home'))
         else:
@@ -171,7 +179,8 @@ def login():
 # Logout Route
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    session.pop('email', None)  # Remove email from session
+    session.pop('name', None)  # Remove name from session
     flash("Logged out successfully.", "info")
     return redirect(url_for('home'))
 

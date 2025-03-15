@@ -4,295 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - ReturnLoop</title>
-    <style>
-        /* General Styles with enhanced design */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        :root {
-            --primary: #6a11cb;
-            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            --secondary: #2c2c2c;
-            --text-light: #ffffff;
-            --text-dark: #333333;
-            --accent: #ff4d6d;
-            --light-bg: #f8f9fa;
-            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-        
-        /* Enhanced Header and Navigation */
-        header {
-            background-color: transparent;
-            color: var(--text-light);
-            padding: 15px 40px;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-        
-        .header-scrolled {
-            background-color: var(--secondary);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
-        }
-        
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            position: relative;
-            padding: 5px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background: var(--primary-gradient);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .auth-buttons .login,
-        .auth-buttons .signup {
-            padding: 10px 24px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .auth-buttons .login {
-            background-color: transparent;
-            color: var(--text-light);
-            border: 2px solid var(--text-light);
-        }
-        
-        .auth-buttons .login:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .auth-buttons .signup {
-            background: var(--primary-gradient);
-            color: var(--text-light);
-            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
-        }
-        
-        .auth-buttons .signup:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.6);
-        }
-        
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            min-height: 100vh;
-            padding: 180px 20px 100px;
-            background: var(--primary-gradient);
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="white" opacity="0.05"/></svg>');
-            background-size: 300px 300px;
-            animation: moveBackground 20s linear infinite;
-        }
-        
-        @keyframes moveBackground {
-            0% { background-position: 0 0; }
-            100% { background-position: 300px 300px; }
-        }
-        
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            animation: fadeInDown 1s ease-out;
-        }
-        
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.3s forwards;
-            opacity: 0;
-        }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 0.9;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Button container for home page */
-        .button-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 20px;
-            animation: fadeIn 1s ease-out 0.6s forwards;
-            opacity: 0;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .large-button {
-            padding: 18px 40px;
-            border: none;
-            border-radius: 50px;
-            text-decoration: none;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-        
-        .large-button:first-child {
-            background-color: var(--secondary);
-            color: var(--text-light);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .large-button:first-child:hover {
-            background-color: #1a1a1a;
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-        
-        .large-button:last-child {
-            background-color: transparent;
-            color: var(--text-light);
-            border: 2px solid var(--text-light);
-        }
-        
-        .large-button:last-child:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-5px);
-        }
-        
-        /* Enhanced Footer */
-        footer {
-            text-align: center;
-            padding: 25px;
-            background-color: var(--secondary);
-            color: var(--text-light);
-            position: relative;
-            width: 100%;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header id="main-header">
+    <header>
         <nav>
             <div class="logo">ReturnLoop</div>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/get_ride">Ride</a></li>
+                <li><a href="/get_ride">Get a Ride</a></li>
                 <li><a href="/pooling">Pooling</a></li>
             </ul>
             <div class="auth-buttons">
-                <a href="/login"><button class="login">Log In</button></a>
-                <a href="/signup"><button class="signup">Sign Up</button></a>
-            </div>
-        </nav>
-    </header><header id="main-header">
-        <nav>
-            <div class="logo">ReturnLoop</div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/get_ride">Ride</a></li>
-                <li><a href="/pooling">Pooling</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="/login"><button class="login">Log In</button></a>
-                <a href="/signup"><button class="signup">Sign Up</button></a>
+                {% if user_name %}
+                    <span>Welcome, {{ user_name }}</span>
+                    <a href="/logout"><button class="logout">Log Out</button></a>
+                {% else %}
+                    <a href="/login"><button class="login">Log In</button></a>
+                    <a href="/signup"><button class="signup">Sign Up</button></a>
+                {% endif %}
             </div>
         </nav>
     </header>
@@ -301,7 +31,6 @@
         <section class="hero">
             <h1>Welcome to ReturnLoop</h1>
             <p>Your journey, your way. Choose your ride option below.</p>
-            
             <div class="button-container">
                 <a href="/get_ride" class="large-button">Get a Ride</a>
                 <a href="/pooling" class="large-button">Do Pooling</a>
@@ -310,34 +39,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2053 ReturnLoop. All rights reserved.</p>
+        <p>&copy; 2025 ReturnLoop. All rights reserved.</p>
     </footer>
-
-    <script>
-        // Enhanced JavaScript functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Header scroll effect
-            const header = document.getElementById('main-header');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.remove('header-scrolled');
-                }
-            });
-            
-            // Button hover effects
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('mouseover', function() {
-                    this.style.transform = 'translateY(-2px)';
-                });
-                
-                button.addEventListener('mouseout', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
 </body>
 </html>
